@@ -17,10 +17,10 @@ class TabAdapter(fragmentManager: FragmentManager) : FragmentPagerAdapter(fragme
 
     override fun getPageTitle(position: Int): CharSequence {
         return when (position) {
-            0 -> "First"
-            1 -> "Second"
-            2 -> "Third"
-            else -> "Fourth"
+            0 -> "Music"
+            1 -> "Market"
+            2 -> "Films"
+            else -> "Books"
         }
     }
 }

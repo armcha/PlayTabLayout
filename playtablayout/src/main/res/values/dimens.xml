@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <dimen name="tab_bottom_dimen">15dp</dimen>
+    <dimen name="tab_bottom_dimen_ripple_with_icon">25dp</dimen>
     <dimen name="tab_bottom_dimen_ripple">22dp</dimen>
 </resources>

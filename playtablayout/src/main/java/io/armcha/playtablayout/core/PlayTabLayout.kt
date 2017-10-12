@@ -51,9 +51,15 @@ class PlayTabLayout : FrameLayout, TouchableTabLayout.TabClickListener {
         } else {
             if (tabColorHolder.isAttachedToWindow) {
                 tabLayout.mViewPager?.let {
+                    fun dimen(dimenResId: Int) = context.resources.getDimension(dimenResId).toInt()
                     val oneTabWidth = tabLayout.width / it.adapter.count
                     val centerX = (oneTabWidth / 2) + oneTabWidth * selected
-                    val centerY = tabColorHolder.height - context.resources.getDimension(R.dimen.tab_bottom_dimen_ripple).toInt()
+                    val hasIcon = tabLayout.getTabAt(0)?.getIcon() != null
+                    val paddingBottom = if (hasIcon)
+                        dimen(R.dimen.tab_bottom_dimen_ripple_with_icon)
+                    else
+                        dimen(R.dimen.tab_bottom_dimen_ripple)
+                    val centerY = tabColorHolder.height - paddingBottom
                     ViewAnimationUtils.createCircularReveal(tabColorHolder, centerX, centerY, startRadius, endRadius)
                 }
             } else {
