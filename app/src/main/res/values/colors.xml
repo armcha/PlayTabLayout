@@ -7,5 +7,5 @@
     <color name="s">#0F9D58</color>
     <color name="t">#FF1744</color>
     <color name="four">#1565A0</color>
-    <color name="unselected_tab_color">#80FFFFFF</color>
+    <color name="unselected_tab_color">#b3ffffff</color>
 </resources>

@@ -42,9 +42,6 @@ import java.lang.IllegalArgumentException
 import java.lang.ref.WeakReference
 import java.util.*
 
-//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!//
-///THIS CLASS IS COPY OF ORIGINAL TAB_LAYOUT, JUST ADDED SOME LISTENERS(and Kotlin :D)///
-//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!//
 class TouchableTabLayout constructor(context: Context,
                                      attrs: AttributeSet? = null)
     : HorizontalScrollView(context, attrs) {
@@ -1823,13 +1820,13 @@ class TouchableTabLayout constructor(context: Context,
         }
 
         override fun onPageSelected(position: Int) {
-            val CustomTabLayout = mCustomTabLayoutRef.get()
-            if (CustomTabLayout != null && CustomTabLayout.selectedTabPosition != position
-                    && position < CustomTabLayout.tabCount) {
+            val customTabLayout = mCustomTabLayoutRef.get()
+            if (customTabLayout != null && customTabLayout.selectedTabPosition != position
+                    && position < customTabLayout.tabCount) {
                 // Select the tab, only updating the indicator if we're not being dragged/settled
                 // (since onPageScrolled will handle that).
                 val updateIndicator = mScrollState == ViewPager.SCROLL_STATE_IDLE || mScrollState == ViewPager.SCROLL_STATE_SETTLING && mPreviousScrollState == ViewPager.SCROLL_STATE_IDLE
-                CustomTabLayout.selectTab(CustomTabLayout.getTabAt(position), updateIndicator)
+                customTabLayout.selectTab(customTabLayout.getTabAt(position), updateIndicator)
                 tabClickListener?.onTabClicked(position, false, null)
             }
         }

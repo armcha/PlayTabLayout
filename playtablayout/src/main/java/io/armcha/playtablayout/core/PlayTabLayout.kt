@@ -10,12 +10,12 @@ import android.view.ViewAnimationUtils
 import android.widget.FrameLayout
 import io.armcha.playtablayout.R
 import io.armcha.playtablayout.common.color
+import io.armcha.playtablayout.common.params
 
 
 /**
  * Created by arman.chatikyan on 10/12/2017.
  */
-typealias params = FrameLayout.LayoutParams
 
 class PlayTabLayout : FrameLayout, TouchableTabLayout.TabClickListener {
 
@@ -33,7 +33,8 @@ class PlayTabLayout : FrameLayout, TouchableTabLayout.TabClickListener {
     constructor(context: Context, attrs: AttributeSet) : super(context, attrs)
 
     init {
-        ViewCompat.setElevation(this, 25F)
+        ViewCompat.setElevation(this, 20F)
+        ViewCompat.setTranslationZ(this, 20F)
         tabLayout = TouchableTabLayout(context)
         tabColorHolder = FrameLayout(context)
         addView(tabColorHolder, params.MATCH_PARENT, params.MATCH_PARENT)
@@ -48,15 +49,20 @@ class PlayTabLayout : FrameLayout, TouchableTabLayout.TabClickListener {
         animator = if (fromTouch && event != null) {
             ViewAnimationUtils.createCircularReveal(tabColorHolder, event.rawX.toInt(), event.y.toInt(), startRadius, endRadius)
         } else {
-            tabLayout.mViewPager?.let {
-                val oneTabWidth = tabLayout.width / it.adapter.count
-                val centerX = (oneTabWidth / 2) + oneTabWidth * selected
-                val centerY = tabColorHolder.height - context.resources.getDimension(R.dimen.tab_bottom_dimen_ripple).toInt()
-                ViewAnimationUtils.createCircularReveal(tabColorHolder, centerX, centerY, startRadius, endRadius)
+            if (tabColorHolder.isAttachedToWindow) {
+                tabLayout.mViewPager?.let {
+                    val oneTabWidth = tabLayout.width / it.adapter.count
+                    val centerX = (oneTabWidth / 2) + oneTabWidth * selected
+                    val centerY = tabColorHolder.height - context.resources.getDimension(R.dimen.tab_bottom_dimen_ripple).toInt()
+                    ViewAnimationUtils.createCircularReveal(tabColorHolder, centerX, centerY, startRadius, endRadius)
+                }
+            } else {
+                setBackgroundColor(context.color(colors[selected]))
+                null
             }
         }
 
-        animator?.duration = 3550
+        animator?.duration = 550
         animator?.interpolator = FastOutSlowInInterpolator()
         animator?.addListener(object : Animator.AnimatorListener {
             override fun onAnimationRepeat(p0: Animator?) {
