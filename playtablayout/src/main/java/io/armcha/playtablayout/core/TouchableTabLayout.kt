@@ -1,4 +1,4 @@
-package io.armcha.playtablayout
+package io.armcha.playtablayout.core
 
 import android.animation.Animator
 import android.animation.AnimatorListenerAdapter
@@ -37,6 +37,7 @@ import android.widget.HorizontalScrollView
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
+import io.armcha.playtablayout.R
 import java.lang.IllegalArgumentException
 import java.lang.ref.WeakReference
 import java.util.*
@@ -1244,19 +1245,18 @@ class TouchableTabLayout constructor(context: Context,
 
         init {
             if (mTabBackgroundResId != 0) {
-                ViewCompat.setBackground(
-                        this, AppCompatResources.getDrawable(context, mTabBackgroundResId))
+                ViewCompat.setBackground(this, AppCompatResources.getDrawable(context, mTabBackgroundResId))
             }
             ViewCompat.setPaddingRelative(this, mTabPaddingStart, mTabPaddingTop,
-                    mTabPaddingEnd, mTabPaddingBottom)
-            gravity = Gravity.CENTER
+                    mTabPaddingEnd, context.resources.getDimension(R.dimen.tab_bottom_dimen).toInt())
+            gravity = Gravity.BOTTOM or Gravity.CENTER_HORIZONTAL
             orientation = VERTICAL
             isClickable = true
+            background = null
             ViewCompat.setPointerIcon(this,
                     PointerIconCompat.getSystemIcon(getContext(), PointerIconCompat.TYPE_HAND))
         }
 
-        var selectedd = false
         override fun performClick(): Boolean {
             val handled = super.performClick()
             return if (tab != null) {
@@ -1264,7 +1264,6 @@ class TouchableTabLayout constructor(context: Context,
                     playSoundEffect(SoundEffectConstants.CLICK)
                 }
                 tab!!.select()
-                selectedd = true
                 true
             } else {
                 handled

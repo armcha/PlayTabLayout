@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     android:fitsSystemWindows="false">
 
-    <io.armcha.playtablayout.PlayTabLayout
+    <io.armcha.playtablayout.core.PlayTabLayout
         android:id="@+id/playTabLayout"
         android:layout_width="match_parent"
         android:layout_height="160dp" />
