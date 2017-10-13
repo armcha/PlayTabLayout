@@ -4,8 +4,8 @@ import android.graphics.Color
 import android.graphics.PorterDuff
 import android.os.Bundle
 import android.support.design.widget.TabLayout
+import android.support.v4.content.ContextCompat
 import android.support.v7.app.AppCompatActivity
-import io.armcha.playtablayout.common.color
 import io.armcha.playtablayout.core.TouchableTabLayout
 import kotlinx.android.synthetic.main.activity_main.*
 
@@ -26,7 +26,7 @@ class MainActivity : AppCompatActivity(), TouchableTabLayout.OnTabSelectedListen
         tabLayout.setSelectedTabIndicatorColor(Color.WHITE)
         tabLayout.tabMode = TabLayout.MODE_FIXED
         tabLayout.tabGravity = TabLayout.GRAVITY_FILL
-        tabLayout.setTabTextColors(color(R.color.unselected_tab_color), Color.WHITE)
+        tabLayout.setTabTextColors(ContextCompat.getColor(this, R.color.unselected_tab_color), Color.WHITE)
         tabLayout.addOnTabSelectedListener(this)
 
         fun icon(index: Int, drawableId: Int) {
@@ -44,7 +44,7 @@ class MainActivity : AppCompatActivity(), TouchableTabLayout.OnTabSelectedListen
                     if (index == viewPager.currentItem)
                         drawable?.setColorFilter(Color.WHITE, PorterDuff.Mode.SRC_IN)
                     else
-                        drawable?.setColorFilter(color(R.color.unselected_tab_color), PorterDuff.Mode.SRC_IN)
+                        drawable?.setColorFilter(ContextCompat.getColor(this, R.color.unselected_tab_color), PorterDuff.Mode.SRC_IN)
                 }
     }
 
@@ -53,7 +53,7 @@ class MainActivity : AppCompatActivity(), TouchableTabLayout.OnTabSelectedListen
     }
 
     override fun onTabUnselected(tab: TouchableTabLayout.Tab) {
-        tab.getIcon()?.setColorFilter(color(R.color.unselected_tab_color), PorterDuff.Mode.SRC_IN);
+        tab.getIcon()?.setColorFilter(ContextCompat.getColor(this, R.color.unselected_tab_color), PorterDuff.Mode.SRC_IN);
     }
 
     override fun onTabReselected(tab: TouchableTabLayout.Tab) {

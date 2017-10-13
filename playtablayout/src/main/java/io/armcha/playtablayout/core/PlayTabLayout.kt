@@ -1,7 +1,11 @@
 package io.armcha.playtablayout.core
 
 import android.animation.Animator
+import android.animation.ArgbEvaluator
+import android.animation.ObjectAnimator
+import android.annotation.TargetApi
 import android.content.Context
+import android.os.Build
 import android.support.v4.view.ViewCompat
 import android.support.v4.view.animation.FastOutSlowInInterpolator
 import android.util.AttributeSet
@@ -9,8 +13,7 @@ import android.view.MotionEvent
 import android.view.ViewAnimationUtils
 import android.widget.FrameLayout
 import io.armcha.playtablayout.R
-import io.armcha.playtablayout.common.color
-import io.armcha.playtablayout.common.params
+import io.armcha.playtablayout.common.*
 
 
 /**
@@ -19,9 +22,10 @@ import io.armcha.playtablayout.common.params
 
 class PlayTabLayout : FrameLayout, TouchableTabLayout.TabClickListener {
 
+    private val ANIMATION_DURATION = 550L
     private var animator: Animator? = null
+    private val tabColorHolder: FrameLayout
     val tabLayout: TouchableTabLayout
-    val tabColorHolder: FrameLayout
     var colors = intArrayOf()
         set(value) {
             setBackgroundColor(context.color(value[0]))
@@ -43,13 +47,28 @@ class PlayTabLayout : FrameLayout, TouchableTabLayout.TabClickListener {
     }
 
     override fun onTabClicked(selected: Int, fromTouch: Boolean, event: MotionEvent?) {
-        animator?.cancel()
+        on21orAbove(up = {
+            animate(fromTouch, event, selected)
+        }, down = {
+            ObjectAnimator.ofInt(tabColorHolder,
+                    tabColorHolder.BACKGROUND_COLOR, color(colors[selected]))
+                    .apply {
+                        duration = ANIMATION_DURATION
+                        setEvaluator(ArgbEvaluator())
+                        interpolator = FastOutSlowInInterpolator()
+                    }.start()
+        })
+    }
+
+    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
+    private fun animate(fromTouch: Boolean, event: MotionEvent?, selected: Int) {
         val startRadius = 0F
         val endRadius = Math.hypot(tabLayout.width.toDouble(), tabLayout.height.toDouble()).toFloat()
+        animator?.cancel()
         animator = if (fromTouch && event != null) {
             ViewAnimationUtils.createCircularReveal(tabColorHolder, event.rawX.toInt(), event.y.toInt(), startRadius, endRadius)
         } else {
-            if (tabColorHolder.isAttachedToWindow) {
+            if (ViewCompat.isAttachedToWindow(tabColorHolder)) {
                 tabLayout.mViewPager?.let {
                     fun dimen(dimenResId: Int) = context.resources.getDimension(dimenResId).toInt()
                     val oneTabWidth = tabLayout.width / it.adapter.count
@@ -63,29 +82,23 @@ class PlayTabLayout : FrameLayout, TouchableTabLayout.TabClickListener {
                     ViewAnimationUtils.createCircularReveal(tabColorHolder, centerX, centerY, startRadius, endRadius)
                 }
             } else {
-                setBackgroundColor(context.color(colors[selected]))
+                setBackgroundColor(color(colors[selected]))
                 null
             }
         }
-
-        animator?.duration = 550
-        animator?.interpolator = FastOutSlowInInterpolator()
-        animator?.addListener(object : Animator.AnimatorListener {
-            override fun onAnimationRepeat(p0: Animator?) {
-            }
-
-            override fun onAnimationEnd(p0: Animator?) {
-                setBackgroundColor(context.color(colors[selected]))
-            }
-
-            override fun onAnimationCancel(p0: Animator?) {
-                setBackgroundColor(context.color(colors[selected]))
-            }
-
-            override fun onAnimationStart(p0: Animator?) {
-                tabColorHolder.setBackgroundColor(context.color(colors[selected]))
-            }
-        })
-        animator?.start()
+        animator?.run {
+            duration = ANIMATION_DURATION
+            interpolator = FastOutSlowInInterpolator()
+            listen(start = {
+                tabColorHolder.setBackgroundColor(color(colors[selected]))
+            }, end = {
+                setBackgroundColor(color(colors[selected]))
+            }, cancel = {
+                setBackgroundColor(color(colors[selected]))
+            })
+            start()
+        }
     }
+
+    private fun color(colorResId: Int) = context.color(colorResId)
 }
