@@ -8,4 +8,5 @@
     <color name="t">#FF1744</color>
     <color name="four">#019BF0</color>
     <color name="unselected_tab_color">#b3ffffff</color>
+    <color name="selected_tab_color">#ffffff</color>
 </resources>

@@ -72,9 +72,9 @@ class PlayTabLayout : FrameLayout, TouchableTabLayout.TabClickListener {
             if (ViewCompat.isAttachedToWindow(tabColorHolder)) {
                 tabLayout.mViewPager?.let {
                     fun dimen(dimenResId: Int) = context.resources.getDimension(dimenResId).toInt()
-                    val oneTabWidth = tabLayout.width / it.adapter.count
+                    val oneTabWidth = tabLayout.mSelectedTab?.mView?.width ?: 1
                     val centerX = (oneTabWidth / 2) + oneTabWidth * selected
-                    val hasIcon = tabLayout.getTabAt(0)?.getIcon() != null
+                    val hasIcon = tabLayout.getTabAt(selected)?.getIcon() != null
                     val paddingBottom = if (hasIcon)
                         dimen(R.dimen.tab_bottom_dimen_ripple_with_icon)
                     else

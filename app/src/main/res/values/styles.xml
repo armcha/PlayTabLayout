@@ -10,4 +10,8 @@
         <item name="android:windowIsTranslucent">true</item>
     </style>
 
+    <style name="AppThemeWithActionBar" parent="Theme.AppCompat.Light">
+        <!-- Customize your theme here. -->
+    </style>
+
 </resources>

@@ -87,7 +87,7 @@ class TouchableTabLayout constructor(context: Context,
     var tabClickListener: TabClickListener? = null
 
     private val mTabs = ArrayList<Tab>()
-    private var mSelectedTab: Tab? = null
+    internal var mSelectedTab: Tab? = null
 
     private val mTabStrip: SlidingTabStrip
 
