@@ -9,11 +9,13 @@ import android.os.Build
 import android.support.v4.view.ViewCompat
 import android.support.v4.view.animation.FastOutSlowInInterpolator
 import android.util.AttributeSet
+import android.util.Log
 import android.view.MotionEvent
 import android.view.ViewAnimationUtils
 import android.widget.FrameLayout
 import io.armcha.playtablayout.R
 import io.armcha.playtablayout.common.*
+import kotlin.properties.Delegates
 
 
 /**
@@ -23,9 +25,11 @@ import io.armcha.playtablayout.common.*
 class PlayTabLayout : FrameLayout, TouchableTabLayout.TabClickListener {
 
     private val ANIMATION_DURATION = 550L
+
     private var animator: Animator? = null
-    private val tabColorHolder: FrameLayout
-    val tabLayout: TouchableTabLayout
+    private var tabColorHolder: FrameLayout by Delegates.notNull()
+    var tabLayout: TouchableTabLayout  by Delegates.notNull()
+
     var colors = intArrayOf()
         set(value) {
             setBackgroundColor(context.color(value[0]))
@@ -56,7 +60,8 @@ class PlayTabLayout : FrameLayout, TouchableTabLayout.TabClickListener {
                         duration = ANIMATION_DURATION
                         setEvaluator(ArgbEvaluator())
                         interpolator = FastOutSlowInInterpolator()
-                    }.start()
+                        start()
+                    }
         })
     }
 

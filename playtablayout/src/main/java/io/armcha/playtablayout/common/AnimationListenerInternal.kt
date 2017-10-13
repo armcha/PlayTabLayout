@@ -22,7 +22,6 @@ private class AnimationListenerInternal(private val start: () -> Unit = {},
     }
 
     override fun onAnimationRepeat(animation: Animator?) {
-
     }
 }
 

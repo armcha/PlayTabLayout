@@ -19,8 +19,9 @@ class RegularActivity : AppCompatActivity() {
                 R.color.t,
                 R.color.four)
 
-        val tabLayout = playTabLayout.tabLayout
         viewPager.adapter = TabAdapter(supportFragmentManager)
+
+        val tabLayout = playTabLayout.tabLayout
 
         with(tabLayout) {
             setupWithViewPager(viewPager)
