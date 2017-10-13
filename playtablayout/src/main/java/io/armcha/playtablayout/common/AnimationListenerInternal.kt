@@ -5,9 +5,9 @@ import android.animation.Animator
 /**
  * Created by arman.chatikyan on 10/13/2017.
  */
-private class Testing(private val start: () -> Unit = {},
-              private val end: () -> Unit = {},
-              private val cancel: () -> Unit = {}) : Animator.AnimatorListener {
+private class AnimationListenerInternal(private val start: () -> Unit = {},
+                                        private val end: () -> Unit = {},
+                                        private val cancel: () -> Unit = {}) : Animator.AnimatorListener {
 
     override fun onAnimationEnd(animation: Animator?) {
         end()
@@ -27,7 +27,19 @@ private class Testing(private val start: () -> Unit = {},
 }
 
 internal fun Animator.listen(start: () -> Unit = {},
-                    end: () -> Unit = {},
-                    cancel: () -> Unit = {}) {
-    addListener(Testing(start, end, cancel))
+                             end: () -> Unit = {},
+                             cancel: () -> Unit = {}) {
+    addListener(AnimationListenerInternal(start, end, cancel))
+}
+
+internal fun Animator.onStart(start: () -> Unit) {
+    addListener(AnimationListenerInternal(start = start))
+}
+
+internal fun Animator.onEnd(end: () -> Unit) {
+    addListener(AnimationListenerInternal(end = end))
+}
+
+internal fun Animator.onCancel(cancel: () -> Unit) {
+    addListener(AnimationListenerInternal(cancel = cancel))
 }

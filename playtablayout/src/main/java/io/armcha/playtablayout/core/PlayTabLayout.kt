@@ -64,6 +64,7 @@ class PlayTabLayout : FrameLayout, TouchableTabLayout.TabClickListener {
     private fun animate(fromTouch: Boolean, event: MotionEvent?, selected: Int) {
         val startRadius = 0F
         val endRadius = Math.hypot(tabLayout.width.toDouble(), tabLayout.height.toDouble()).toFloat()
+        val color = color(colors[selected])
         animator?.cancel()
         animator = if (fromTouch && event != null) {
             ViewAnimationUtils.createCircularReveal(tabColorHolder, event.rawX.toInt(), event.y.toInt(), startRadius, endRadius)
@@ -82,19 +83,20 @@ class PlayTabLayout : FrameLayout, TouchableTabLayout.TabClickListener {
                     ViewAnimationUtils.createCircularReveal(tabColorHolder, centerX, centerY, startRadius, endRadius)
                 }
             } else {
-                setBackgroundColor(color(colors[selected]))
+                setBackgroundColor(color)
                 null
             }
         }
         animator?.run {
             duration = ANIMATION_DURATION
             interpolator = FastOutSlowInInterpolator()
+
             listen(start = {
-                tabColorHolder.setBackgroundColor(color(colors[selected]))
+                tabColorHolder.setBackgroundColor(color)
             }, end = {
-                setBackgroundColor(color(colors[selected]))
+                setBackgroundColor(color)
             }, cancel = {
-                setBackgroundColor(color(colors[selected]))
+                setBackgroundColor(color)
             })
             start()
         }
