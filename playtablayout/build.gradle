@@ -31,7 +31,6 @@ android {
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-    implementation 'com.android.support:appcompat-v7:26.1.0'
     implementation 'com.android.support:design:26.1.0'
     implementation 'org.jetbrains.kotlin:kotlin-stdlib:1.1.51'
 }
@@ -39,8 +38,10 @@ dependencies {
 publish {
     groupId = 'com.github.armcha'
     artifactId = 'PlayTabLayout'
-    publishVersion = '1.1.0'
+    publishVersion = '1.2.0'
     desc = 'PlayTabLayout'
     licences = ['MIT']
     website = 'https://github.com/armcha/PlayTabLayout'
 }
+
+apply plugin: 'kotlin-android-extensions'

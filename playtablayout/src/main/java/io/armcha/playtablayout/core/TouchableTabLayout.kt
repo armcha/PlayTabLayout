@@ -16,6 +16,7 @@ import android.support.annotation.ColorInt
 import android.support.annotation.DrawableRes
 import android.support.annotation.LayoutRes
 import android.support.annotation.StringRes
+import android.support.design.widget.TabLayout
 import android.support.v4.util.Pools
 import android.support.v4.view.*
 import android.support.v4.view.animation.FastOutLinearInInterpolator
@@ -140,73 +141,72 @@ class TouchableTabLayout constructor(context: Context,
         super.addView(mTabStrip, 0, LayoutParams(
                 LayoutParams.WRAP_CONTENT, LayoutParams.MATCH_PARENT))
 
-        val a = context.obtainStyledAttributes(attrs, android.support.design.R.styleable.TabLayout,
+        val a = context.obtainStyledAttributes(attrs, R.styleable.TouchableTabLayout,
                 0, android.support.design.R.style.Widget_Design_TabLayout)
+        //TabLayout
 
         mTabStrip.setSelectedIndicatorHeight(
-                a.getDimensionPixelSize(android.support.design.R.styleable.TabLayout_tabIndicatorHeight, 0))
-        mTabStrip.setSelectedIndicatorColor(a.getColor(android.support.design.R.styleable.TabLayout_tabIndicatorColor, 0))
+                a.getDimensionPixelSize(R.styleable.TouchableTabLayout_tabIndicatorHeight, 0))
+        mTabStrip.setSelectedIndicatorColor(a.getColor(R.styleable.TouchableTabLayout_tabIndicatorColor, 0))
 
         mTabPaddingBottom = a
-                .getDimensionPixelSize(android.support.design.R.styleable.TabLayout_tabPadding, 0)
+                .getDimensionPixelSize(R.styleable.TouchableTabLayout_tabPadding, 0)
         mTabPaddingEnd = mTabPaddingBottom
         mTabPaddingTop = mTabPaddingEnd
         mTabPaddingStart = mTabPaddingTop
-        mTabPaddingStart = a.getDimensionPixelSize(android.support.design.R.styleable.TabLayout_tabPaddingStart,
+        mTabPaddingStart = a.getDimensionPixelSize(R.styleable.TouchableTabLayout_tabPaddingStart,
                 mTabPaddingStart)
-        mTabPaddingTop = a.getDimensionPixelSize(android.support.design.R.styleable.TabLayout_tabPaddingTop,
+        mTabPaddingTop = a.getDimensionPixelSize(R.styleable.TouchableTabLayout_tabPaddingTop,
                 mTabPaddingTop)
-        mTabPaddingEnd = a.getDimensionPixelSize(android.support.design.R.styleable.TabLayout_tabPaddingEnd,
+        mTabPaddingEnd = a.getDimensionPixelSize(R.styleable.TouchableTabLayout_tabPaddingEnd,
                 mTabPaddingEnd)
-        mTabPaddingBottom = a.getDimensionPixelSize(android.support.design.R.styleable.TabLayout_tabPaddingBottom,
+        mTabPaddingBottom = a.getDimensionPixelSize(R.styleable.TouchableTabLayout_tabPaddingBottom,
                 mTabPaddingBottom)
 
-        mTabTextAppearance = a.getResourceId(android.support.design.R.styleable.TabLayout_tabTextAppearance,
+        mTabTextAppearance = a.getResourceId(R.styleable.TouchableTabLayout_tabTextAppearance,
                 android.support.design.R.style.TextAppearance_Design_Tab)
 
         // Text colors/sizes come from the text appearance first
         val ta = context.obtainStyledAttributes(mTabTextAppearance,
-                android.support.v7.appcompat.R.styleable.TextAppearance)
+                R.styleable.TouchableTabLayoutTextAppearance)
         try {
             mTabTextSize = ta.getDimensionPixelSize(
-                    android.support.v7.appcompat.R.styleable.TextAppearance_android_textSize, 0).toFloat()
+                    R.styleable.TouchableTabLayoutTextAppearance_android_textSize, 0).toFloat()
             mTabTextColors = ta.getColorStateList(
-                    android.support.v7.appcompat.R.styleable.TextAppearance_android_textColor)
+                    R.styleable.TouchableTabLayoutTextAppearance_android_textColor)
         } finally {
             ta.recycle()
         }
 
-        if (a.hasValue(android.support.design.R.styleable.TabLayout_tabTextColor)) {
+        if (a.hasValue(R.styleable.TouchableTabLayout_tabTextColor)) {
             // If we have an explicit text color set, use it instead
-            mTabTextColors = a.getColorStateList(android.support.design.R.styleable.TabLayout_tabTextColor)
+            mTabTextColors = a.getColorStateList(R.styleable.TouchableTabLayout_tabTextColor)
         }
 
-        if (a.hasValue(android.support.design.R.styleable.TabLayout_tabSelectedTextColor)) {
+        if (a.hasValue(R.styleable.TouchableTabLayout_tabSelectedTextColor)) {
             // We have an explicit selected text color set, so we need to make merge it withLog the
             // current colors. This is exposed so that developers can use theme attributes to set
             // this (theme attrs in ColorStateLists are Lollipop+)
-            val selected = a.getColor(android.support.design.R.styleable.TabLayout_tabSelectedTextColor, 0)
+            val selected = a.getColor(R.styleable.TouchableTabLayout_tabSelectedTextColor, 0)
             mTabTextColors = createColorStateList(mTabTextColors!!.defaultColor, selected)
         }
 
-        mRequestedTabMinWidth = a.getDimensionPixelSize(android.support.design.R.styleable.TabLayout_tabMinWidth,
+        mRequestedTabMinWidth = a.getDimensionPixelSize(R.styleable.TouchableTabLayout_tabMinWidth,
                 INVALID_WIDTH)
-        mRequestedTabMaxWidth = a.getDimensionPixelSize(android.support.design.R.styleable.TabLayout_tabMaxWidth,
+        mRequestedTabMaxWidth = a.getDimensionPixelSize(R.styleable.TouchableTabLayout_tabMaxWidth,
                 INVALID_WIDTH)
-        mTabBackgroundResId = a.getResourceId(android.support.design.R.styleable.TabLayout_tabBackground, 0)
-        mContentInsetStart = a.getDimensionPixelSize(android.support.design.R.styleable.TabLayout_tabContentStart, 0)
-        mMode = a.getInt(android.support.design.R.styleable.TabLayout_tabMode, MODE_FIXED)
-        mTabGravity = a.getInt(android.support.design.R.styleable.TabLayout_tabGravity, GRAVITY_FILL)
+        mTabBackgroundResId = a.getResourceId(R.styleable.TouchableTabLayout_tabBackground, 0)
+        mContentInsetStart = a.getDimensionPixelSize(R.styleable.TouchableTabLayout_tabContentStart, 0)
+        mMode = a.getInt(R.styleable.TouchableTabLayout_tabMode, MODE_FIXED)
+        mTabGravity = a.getInt(R.styleable.TouchableTabLayout_tabGravity, GRAVITY_FILL)
         a.recycle()
 
-        // TODO add attr for these
         val res = resources
-        mTabTextMultiLineSize = res.getDimensionPixelSize(android.support.design.R.dimen.design_tab_text_size_2line).toFloat()
-        mScrollableTabMinWidth = res.getDimensionPixelSize(android.support.design.R.dimen.design_tab_scrollable_min_width)
+        mTabTextMultiLineSize = res.getDimensionPixelSize(R.dimen.design_touchable_tab_text_size_2line).toFloat()
+        mScrollableTabMinWidth = res.getDimensionPixelSize(R.dimen.design_touchable_tab_scrollable_min_width)
 
         // Now apply the tab mode and gravity
         applyModeAndGravity()
-
     }
 
 
