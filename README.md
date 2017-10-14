@@ -2,12 +2,12 @@
 
 Play tab layout is customized tab layout written in kotlin, allowing easily integrate Google Play like tab layout to your app.
 
-![](art/regular.gif)
-![](art/witIcon.gif)<br/>
+![](art/regular.gif)<br/>
+![](art/witIcon.gif)
 
 The current minSDK version is API level 16.
 
-###Download
+### Download
 -----------------------
 
 Gradle:
