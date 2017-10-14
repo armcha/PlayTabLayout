@@ -21,13 +21,9 @@ class RegularActivity : AppCompatActivity() {
 
         viewPager.adapter = TabAdapter(supportFragmentManager)
 
-        val tabLayout = playTabLayout.tabLayout
-
-        with(tabLayout) {
+        with(playTabLayout.tabLayout) {
             setupWithViewPager(viewPager)
             setSelectedTabIndicatorHeight(7)
-            tabMode = TabLayout.MODE_FIXED
-            tabGravity = TabLayout.GRAVITY_FILL
             setSelectedTabIndicatorColor(Color.WHITE)
             setTabTextColors(ContextCompat.getColor(this@RegularActivity, R.color.unselected_tab_color), Color.WHITE)
         }

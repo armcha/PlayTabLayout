@@ -9,18 +9,14 @@ import android.support.v4.app.FragmentPagerAdapter
  */
 class TabAdapter(fragmentManager: FragmentManager) : FragmentPagerAdapter(fragmentManager) {
 
-    override fun getItem(position: Int): Fragment {
-        return SampleFragment()
-    }
+    override fun getItem(position: Int) = SampleFragment()
 
     override fun getCount() = 4
 
-    override fun getPageTitle(position: Int): CharSequence {
-        return when (position) {
-            0 -> "Music"
-            1 -> "Market"
-            2 -> "Films"
-            else -> "Books"
-        }
+    override fun getPageTitle(position: Int) = when (position) {
+        0 -> "Music"
+        1 -> "Market"
+        2 -> "Films"
+        else -> "Books"
     }
 }
