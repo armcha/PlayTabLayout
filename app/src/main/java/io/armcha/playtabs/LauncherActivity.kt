@@ -19,4 +19,5 @@ class LauncherActivity : AppCompatActivity() {
             startActivity(Intent(this, WithIconActivity::class.java))
         }
     }
+
 }

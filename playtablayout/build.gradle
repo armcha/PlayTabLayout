@@ -4,6 +4,8 @@ apply plugin: 'kotlin-android'
 
 apply plugin: 'kotlin-android-extensions'
 
+apply plugin: 'com.novoda.bintray-release'
+
 android {
     compileSdkVersion 26
     buildToolsVersion "26.0.2"
@@ -30,4 +32,13 @@ dependencies {
     implementation 'com.android.support:appcompat-v7:26.1.0'
     implementation 'com.android.support:design:26.1.0'
     implementation 'org.jetbrains.kotlin:kotlin-stdlib:1.1.51'
+}
+
+publish {
+    groupId = 'com.github.armcha'
+    artifactId = 'Logger'
+    publishVersion = '1.0.0'
+    desc = 'PlayTabLayout'
+    licences = ['MIT']
+    website = 'https://github.com/armcha/PlayTabLayout'
 }
