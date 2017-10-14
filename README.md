@@ -27,7 +27,7 @@ implementation 'com.github.armcha:PlayTabLayout:1.0.0'
             android:layout_height="some_dp" />
 ```
 
-2. Add tab colors, it is intArray
+2. Add tab colors
 
 ```kotlin
 playTabLayout.colors = intArrayOf(R.color.f,
