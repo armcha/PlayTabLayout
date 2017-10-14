@@ -2,8 +2,6 @@ apply plugin: 'com.android.library'
 
 apply plugin: 'kotlin-android'
 
-apply plugin: 'kotlin-android-extensions'
-
 apply plugin: 'com.novoda.bintray-release'
 
 android {
@@ -41,7 +39,7 @@ dependencies {
 publish {
     groupId = 'com.github.armcha'
     artifactId = 'PlayTabLayout'
-    publishVersion = '1.0.0'
+    publishVersion = '1.1.0'
     desc = 'PlayTabLayout'
     licences = ['MIT']
     website = 'https://github.com/armcha/PlayTabLayout'

@@ -12,7 +12,7 @@ The current minSDK version is API level 16.
 
 Gradle:
 ```groovy
-implementation 'com.github.armcha:PlayTabLayout:1.0.0'
+implementation 'com.github.armcha:PlayTabLayout:1.1.0'
 ```
 
 ### Download sample [apk](https://github.com/armcha/PlayTabLayout/tree/master/art/app.apk)
