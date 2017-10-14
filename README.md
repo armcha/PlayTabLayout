@@ -38,7 +38,7 @@ playTabLayout.colors = intArrayOf(R.color.f,
 
 ### Note: array must be the same size as your adapter item count
 
-3. And you can use it as a regular tab layout
+3. And you can use it like a regular tab layout
 
 ```kotlin
 viewPager.adapter = TabAdapter(supportFragmentManager)
