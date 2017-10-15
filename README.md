@@ -1,6 +1,6 @@
 # PlayTabLayout
 
-Play tab layout is customized tab layout written in kotlin, allowing easily integrate Google Play like tab layout to your app.
+PlayTabLayout is a tab layout very similar to Google Play tab layout. The main feature is that ripple shows in a particular place where user taps.
 
 ![](art/regular.gif)<br/>
 ![](art/witIcon.gif)
@@ -14,7 +14,8 @@ Gradle:
 ```groovy
 implementation 'com.github.armcha:PlayTabLayout:1.2.2'
 ```
-For now there is an issue, you should also implement support design. It will be fixed in upcoming versions.
+The library works with support design, so you should add it to your project.
+Without support design there will be an issue. It will be fixed in upcoming versions.
 ```groovy
 implementation 'com.android.support:design:26.1.0'
 ```
@@ -46,10 +47,8 @@ playTabLayout.colors = intArrayOf(R.color.f,
 
 ```kotlin
 viewPager.adapter = TabAdapter(supportFragmentManager)
-
-with(playTabLayout.tabLayout) {
-    setupWithViewPager(viewPager)
-}
+val tabLayout = playTabLayout.tabLayout
+tabLayout.setupWithViewPager(viewPager)
 ```
 
 ## Contact
