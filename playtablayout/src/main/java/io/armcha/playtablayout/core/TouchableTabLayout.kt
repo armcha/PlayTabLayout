@@ -16,7 +16,6 @@ import android.support.annotation.ColorInt
 import android.support.annotation.DrawableRes
 import android.support.annotation.LayoutRes
 import android.support.annotation.StringRes
-import android.support.design.widget.TabLayout
 import android.support.v4.util.Pools
 import android.support.v4.view.*
 import android.support.v4.view.animation.FastOutLinearInInterpolator

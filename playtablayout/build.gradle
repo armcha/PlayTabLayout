@@ -38,10 +38,8 @@ dependencies {
 publish {
     groupId = 'com.github.armcha'
     artifactId = 'PlayTabLayout'
-    publishVersion = '1.2.0'
+    publishVersion = '1.2.2'
     desc = 'PlayTabLayout'
     licences = ['MIT']
     website = 'https://github.com/armcha/PlayTabLayout'
 }
-
-apply plugin: 'kotlin-android-extensions'

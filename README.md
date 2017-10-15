@@ -12,7 +12,11 @@ The current minSDK version is API level 16.
 
 Gradle:
 ```groovy
-implementation 'com.github.armcha:PlayTabLayout:1.1.0'
+implementation 'com.github.armcha:PlayTabLayout:1.2.2'
+```
+For now there is an issue, you should also implement support design. It will be fixed in upcoming versions.
+```groovy
+implementation 'com.android.support:design:26.1.0'
 ```
 
 ### Download sample [apk](https://github.com/armcha/PlayTabLayout/tree/master/art/app.apk)
@@ -41,7 +45,7 @@ playTabLayout.colors = intArrayOf(R.color.f,
 3. And you can use it like a regular tab layout
 
 ```kotlin
-viewPager.adapter = TabAdapter(supportFragmentManager)
+        viewPager.adapter = TabAdapter(supportFragmentManager)
 
         with(playTabLayout.tabLayout) {
             setupWithViewPager(viewPager)
