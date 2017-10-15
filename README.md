@@ -45,11 +45,11 @@ playTabLayout.colors = intArrayOf(R.color.f,
 3. And you can use it like a regular tab layout
 
 ```kotlin
-        viewPager.adapter = TabAdapter(supportFragmentManager)
+viewPager.adapter = TabAdapter(supportFragmentManager)
 
-        with(playTabLayout.tabLayout) {
-            setupWithViewPager(viewPager)
-        }
+with(playTabLayout.tabLayout) {
+    setupWithViewPager(viewPager)
+}
 ```
 
 ## Contact
