@@ -12,12 +12,7 @@ The current minSDK version is API level 16.
 
 Gradle:
 ```groovy
-implementation 'com.github.armcha:PlayTabLayout:1.2.2'
-```
-The library works with support design, so you should add it to your project.
-Without support design there will be an issue. It will be fixed in upcoming versions.
-```groovy
-implementation 'com.android.support:design:26.1.0'
+implementation 'com.github.armcha:PlayTabLayout:1.2.4'
 ```
 
 ### Download sample [apk](https://github.com/armcha/PlayTabLayout/tree/master/art/app.apk)
