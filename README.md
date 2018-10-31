@@ -45,6 +45,15 @@ viewPager.adapter = TabAdapter(supportFragmentManager)
 val tabLayout = playTabLayout.tabLayout
 tabLayout.setupWithViewPager(viewPager)
 ```
+###Current limitations: 
+You can't set 
+```java
+tabMode="scrollable"
+```
+and 
+```java
+tabGravity="center"
+```
 
 ## Contact
 
