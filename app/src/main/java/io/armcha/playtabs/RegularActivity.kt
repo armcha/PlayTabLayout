@@ -13,12 +13,13 @@ class RegularActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        playTabLayout.colors = intArrayOf(R.color.f,
+        playTabLayout.colors = intArrayOf(
+                R.color.f,
                 R.color.s,
                 R.color.t,
                 R.color.four)
 
-        viewPager.adapter = TabAdapter(supportFragmentManager)
+        viewPager.adapter = TabAdapter(supportFragmentManager,playTabLayout.colors.size)
 
         with(playTabLayout.tabLayout) {
             setupWithViewPager(viewPager)

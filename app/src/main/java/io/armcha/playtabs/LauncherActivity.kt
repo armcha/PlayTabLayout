@@ -3,6 +3,7 @@ package io.armcha.playtabs
 import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import android.support.design.widget.TabLayout
 import kotlinx.android.synthetic.main.activity_launcher.*
 
 class LauncherActivity : AppCompatActivity() {
@@ -19,5 +20,4 @@ class LauncherActivity : AppCompatActivity() {
             startActivity(Intent(this, WithIconActivity::class.java))
         }
     }
-
 }

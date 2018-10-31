@@ -19,10 +19,11 @@ class WithIconActivity : AppCompatActivity(), TouchableTabLayout.OnTabSelectedLi
         playTabLayout.colors = intArrayOf(R.color.f,
                 R.color.s,
                 R.color.t,
-                R.color.four)
+                R.color.four,
+                R.color.colorPrimary)
 
         val tabLayout = playTabLayout.tabLayout
-        viewPager.adapter = TabAdapter(supportFragmentManager)
+        viewPager.adapter = TabAdapter(supportFragmentManager,playTabLayout.colors.size)
 
         with(tabLayout) {
             setupWithViewPager(viewPager)
@@ -41,11 +42,12 @@ class WithIconActivity : AppCompatActivity(), TouchableTabLayout.OnTabSelectedLi
         icon(1, R.drawable.google_play)
         icon(2, R.drawable.filmstrip)
         icon(3, R.drawable.book_open_variant)
+        icon(4, R.drawable.android)
 
         fun Drawable.tint(color: Int) {
             setColorFilter(ContextCompat.getColor(this@WithIconActivity, color), PorterDuff.Mode.SRC_IN)
         }
-        (0 until viewPager.adapter.count)
+        (0 until (viewPager.adapter as TabAdapter).count)
                 .map { tabLayout.getTabAt(it) }
                 .map { it?.getIcon() }
                 .doWhen({ it?.tint(R.color.selected_tab_color) }, { it == viewPager.currentItem })

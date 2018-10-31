@@ -2,9 +2,12 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+      <module fileurl="file://$PROJECT_DIR$/.idea/PlayTabLayout.iml" filepath="$PROJECT_DIR$/.idea/PlayTabLayout.iml" />
       <module fileurl="file://$PROJECT_DIR$/PlayTabLayout.iml" filepath="$PROJECT_DIR$/PlayTabLayout.iml" />
-      <module fileurl="file://C:\Users\Chati\AndroidStudioProjects\PlayTabLayout\PlayTabs.iml" filepath="C:\Users\Chati\AndroidStudioProjects\PlayTabLayout\PlayTabs.iml" />
+      <module fileurl="file://$PROJECT_DIR$/PlayTabs.iml" filepath="$PROJECT_DIR$/PlayTabs.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/playtablayout/playtablayout.iml" filepath="$PROJECT_DIR$/playtablayout/playtablayout.iml" />
       <module fileurl="file://$PROJECT_DIR$/playtablayout/playtablayout.iml" filepath="$PROJECT_DIR$/playtablayout/playtablayout.iml" />
     </modules>
   </component>

@@ -110,8 +110,8 @@ class TouchableTabLayout constructor(context: Context,
 
     private val mContentInsetStart: Int
 
-    internal var mTabGravity: Int = 0
-    internal var mMode: Int = 0
+    internal var mTabGravity: Int = GRAVITY_FILL
+    internal var mMode: Int = MODE_FIXED
 
     private var mSelectedListener: OnTabSelectedListener? = null
     private val mSelectedListeners = ArrayList<OnTabSelectedListener>()
@@ -140,8 +140,7 @@ class TouchableTabLayout constructor(context: Context,
         super.addView(mTabStrip, 0, LayoutParams(
                 LayoutParams.WRAP_CONTENT, LayoutParams.MATCH_PARENT))
 
-        val a = context.obtainStyledAttributes(attrs, R.styleable.TouchableTabLayout,
-                0, android.support.design.R.style.Widget_Design_TabLayout)
+        val a = context.obtainStyledAttributes(attrs, R.styleable.TouchableTabLayout)
         //TabLayout
 
         mTabStrip.setSelectedIndicatorHeight(
@@ -162,12 +161,15 @@ class TouchableTabLayout constructor(context: Context,
         mTabPaddingBottom = a.getDimensionPixelSize(R.styleable.TouchableTabLayout_tabPaddingBottom,
                 mTabPaddingBottom)
 
-        mTabTextAppearance = a.getResourceId(R.styleable.TouchableTabLayout_tabTextAppearance,
-                android.support.design.R.style.TextAppearance_Design_Tab)
+        mTabTextAppearance = a.getResourceId(R.styleable.TabLayout_tabTextAppearance, R.style.TextAppearance_Design_Tab)
 
         // Text colors/sizes come from the text appearance first
         val ta = context.obtainStyledAttributes(mTabTextAppearance,
                 R.styleable.TouchableTabLayoutTextAppearance)
+
+//        mTabTextAppearance = a.getResourceId(R.styleable.TouchableTabLayout_tabTextAppearance,
+//                android.support.design.R.style.TextAppearance_Design_Tab)
+
         try {
             mTabTextSize = ta.getDimensionPixelSize(
                     R.styleable.TouchableTabLayoutTextAppearance_android_textSize, 0).toFloat()
@@ -196,8 +198,6 @@ class TouchableTabLayout constructor(context: Context,
                 INVALID_WIDTH)
         mTabBackgroundResId = a.getResourceId(R.styleable.TouchableTabLayout_tabBackground, 0)
         mContentInsetStart = a.getDimensionPixelSize(R.styleable.TouchableTabLayout_tabContentStart, 0)
-        mMode = a.getInt(R.styleable.TouchableTabLayout_tabMode, MODE_FIXED)
-        mTabGravity = a.getInt(R.styleable.TouchableTabLayout_tabGravity, GRAVITY_FILL)
         a.recycle()
 
         val res = resources
@@ -478,17 +478,6 @@ class TouchableTabLayout constructor(context: Context,
             }
         }
 
-    /**
-     * The current gravity used for laying out tabs.
-     *
-     * @return one of [.GRAVITY_CENTER] or [.GRAVITY_FILL].
-     */
-    /**
-     * Set the gravity to use when laying out the tabs.
-     *
-     * @param gravity one of [.GRAVITY_CENTER] or [.GRAVITY_FILL].
-     * @attr ref android.support.design.R.styleable#CustomTabLayout_tabGravity
-     */
     var tabGravity: Int
         @TabGravity
         get() = mTabGravity
@@ -560,7 +549,7 @@ class TouchableTabLayout constructor(context: Context,
         if (mViewPager != null) {
             // If we've already been setup withLog a ViewPager, remove us from it
             if (mPageChangeListener != null) {
-                mViewPager!!.removeOnPageChangeListener(mPageChangeListener)
+                mViewPager!!.removeOnPageChangeListener(mPageChangeListener!!)
             }
             if (mAdapterChangeListener != null) {
                 mViewPager!!.removeOnAdapterChangeListener(mAdapterChangeListener!!)
@@ -581,7 +570,7 @@ class TouchableTabLayout constructor(context: Context,
                 mPageChangeListener = CustomTabLayoutOnPageChangeListener(this)
             }
             mPageChangeListener!!.reset()
-            viewPager.addOnPageChangeListener(mPageChangeListener)
+            viewPager.addOnPageChangeListener(mPageChangeListener!!)
 
             // Now we'll add a tab selected listener to set ViewPager's current item
             mCurrentVpSelectedListener = ViewPagerOnTabSelectedListener(viewPager)
@@ -656,7 +645,7 @@ class TouchableTabLayout constructor(context: Context,
     internal fun setPagerAdapter(adapter: PagerAdapter?, addObserver: Boolean) {
         if (mPagerAdapter != null && mPagerAdapterObserver != null) {
             // If we already have a PagerAdapter, unregister our observer
-            mPagerAdapter!!.unregisterDataSetObserver(mPagerAdapterObserver)
+            mPagerAdapter!!.unregisterDataSetObserver(mPagerAdapterObserver!!)
         }
 
         mPagerAdapter = adapter
@@ -666,7 +655,7 @@ class TouchableTabLayout constructor(context: Context,
             if (mPagerAdapterObserver == null) {
                 mPagerAdapterObserver = PagerAdapterObserver()
             }
-            adapter.registerDataSetObserver(mPagerAdapterObserver)
+            adapter.registerDataSetObserver(mPagerAdapterObserver!!)
         }
 
         // Finally make sure we reflect the new adapter
@@ -794,10 +783,6 @@ class TouchableTabLayout constructor(context: Context,
             var remeasure = false
 
             when (mMode) {
-                MODE_SCROLLABLE ->
-                    // We only need to resize the child if it's smaller than us. This is similar
-                    // to fillViewport
-                    remeasure = child.measuredWidth < measuredWidth
                 MODE_FIXED ->
                     // Resize the child so that it doesn't scroll
                     remeasure = child.measuredWidth != measuredWidth
@@ -922,39 +907,15 @@ class TouchableTabLayout constructor(context: Context,
     }
 
     private fun calculateScrollXForTab(position: Int, positionOffset: Float): Int {
-        if (mMode == MODE_SCROLLABLE) {
-            val selectedChild = mTabStrip.getChildAt(position)
-            val nextChild = if (position + 1 < mTabStrip.childCount)
-                mTabStrip.getChildAt(position + 1)
-            else
-                null
-            val selectedWidth = selectedChild?.width ?: 0
-            val nextWidth = nextChild?.width ?: 0
-
-            // base scroll amount: places center of tab in center of parent
-            val scrollBase = selectedChild!!.left + selectedWidth / 2 - width / 2
-            // offset amount: fraction of the distance between centers of tabs
-            val scrollOffset = ((selectedWidth + nextWidth).toFloat() * 0.5f * positionOffset).toInt()
-
-            return if (ViewCompat.getLayoutDirection(this) == ViewCompat.LAYOUT_DIRECTION_LTR)
-                scrollBase + scrollOffset
-            else
-                scrollBase - scrollOffset
-        }
         return 0
     }
 
     private fun applyModeAndGravity() {
         var paddingStart = 0
-        if (mMode == MODE_SCROLLABLE) {
-            // If we're scrollable, or fixed at start, inset using padding
-            paddingStart = Math.max(0, mContentInsetStart - mTabPaddingStart)
-        }
         ViewCompat.setPaddingRelative(mTabStrip, paddingStart, 0, 0, 0)
 
         when (mMode) {
             MODE_FIXED -> mTabStrip.gravity = Gravity.CENTER_HORIZONTAL
-            MODE_SCROLLABLE -> mTabStrip.gravity = GravityCompat.START
         }
 
         updateTabViews(true)
@@ -1571,55 +1532,6 @@ class TouchableTabLayout constructor(context: Context,
                 // EXACTLY. Ignore the first call since anything we do will be overwritten anyway
                 return
             }
-
-            if (mMode == MODE_FIXED && mTabGravity == GRAVITY_CENTER) {
-                val count = childCount
-
-                // First we'll find the widest tab
-                var largestTabWidth = 0
-                run {
-                    var i = 0
-                    while (i < count) {
-                        val child = getChildAt(i)
-                        if (child.visibility == View.VISIBLE) {
-                            largestTabWidth = Math.max(largestTabWidth, child.measuredWidth)
-                        }
-                        i++
-                    }
-                }
-
-                if (largestTabWidth <= 0) {
-                    // If we don't have a largest child yet, skip until the next measure pass
-                    return
-                }
-
-                val gutter = dpToPx(FIXED_WRAP_GUTTER_MIN)
-                var remeasure = false
-
-                if (largestTabWidth * count <= measuredWidth - gutter * 2) {
-                    // If the tabs fit within our width minus gutters, we will set all tabs to have
-                    // the same width
-                    for (i in 0 until count) {
-                        val lp = getChildAt(i).layoutParams as LayoutParams
-                        if (lp.width != largestTabWidth || lp.weight != 0f) {
-                            lp.width = largestTabWidth
-                            lp.weight = 0f
-                            remeasure = true
-                        }
-                    }
-                } else {
-                    // If the tabs will wrap to be larger than the width minus gutters, we need
-                    // to switch to GRAVITY_FILL
-                    mTabGravity = GRAVITY_FILL
-                    updateTabViews(false)
-                    remeasure = true
-                }
-
-                if (remeasure) {
-                    // Now re-measure after our changes
-                    super.onMeasure(widthMeasureSpec, heightMeasureSpec)
-                }
-            }
         }
 
         override fun onLayout(changed: Boolean, l: Int, t: Int, r: Int, b: Int) {
@@ -1770,7 +1682,7 @@ class TouchableTabLayout constructor(context: Context,
             if (mRequestedTabMinWidth != INVALID_WIDTH) {
                 return mRequestedTabMinWidth
             }
-            return if (mMode == MODE_SCROLLABLE) mScrollableTabMinWidth else 0
+            return 0
         }
 
     override fun generateLayoutParams(attrs: AttributeSet): LayoutParams {
@@ -1893,16 +1805,6 @@ class TouchableTabLayout constructor(context: Context,
         private val sTabPool = Pools.SynchronizedPool<Tab>(16)
 
         /**
-         * Scrollable tabs display a subset of tabs at any given moment, and can contain longer tab
-         * labels and a larger number of tabs. They are best used for browsing contexts in touch
-         * interfaces when users don’t need to directly compare the tab labels.
-         *
-         * @see .setTabMode
-         * @see .getTabMode
-         */
-        val MODE_SCROLLABLE = 0
-
-        /**
          * Fixed tabs display all tabs concurrently and are best used withLog content that benefits from
          * quick pivots between tabs. The maximum number of tabs is limited by the view’s width.
          * Fixed tabs have equal width, based on the widest tab label.
@@ -1920,14 +1822,6 @@ class TouchableTabLayout constructor(context: Context,
          * @see .getTabGravity
          */
         val GRAVITY_FILL = 0
-
-        /**
-         * Gravity used to lay out the tabs in the center of the [TouchableTabLayout].
-         *
-         * @see .setTabGravity
-         * @see .getTabGravity
-         */
-        val GRAVITY_CENTER = 1
 
         private fun createColorStateList(defaultColor: Int, selectedColor: Int): ColorStateList {
             val states = arrayOfNulls<IntArray>(2)
