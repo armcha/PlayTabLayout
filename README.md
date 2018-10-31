@@ -30,7 +30,8 @@ implementation 'com.github.armcha:PlayTabLayout:2.0.0'
 2. Add tab colors
 
 ```kotlin
-playTabLayout.colors = intArrayOf(R.color.f,
+playTabLayout.colors = intArrayOf(
+                R.color.f,
                 R.color.s,
                 R.color.t,
                 R.color.four)
@@ -45,7 +46,7 @@ viewPager.adapter = TabAdapter(supportFragmentManager)
 val tabLayout = playTabLayout.tabLayout
 tabLayout.setupWithViewPager(viewPager)
 ```
-###Current limitations: 
+### Current limitations: 
 You can't set 
 ```java
 tabMode="scrollable"
@@ -60,7 +61,6 @@ tabGravity="center"
 Pull requests are more than welcome.
 
 - **Email**: chatikyana@gmail.com
-- **Facebook**: https://web.facebook.com/chatikyana
 - **Twitter**: https://twitter.com/ArmanChatikyan
 - **Google +**: https://plus.google.com/+ArmanChatikyan
 - **Website**: https://armcha.github.io/
@@ -70,7 +70,7 @@ License
 --------
 
       PlayTabLayout
-      Copyright (c) 2017 Arman Chatikyan (https://github.com/armcha/PlayTabLayout).
+      Copyright (c) 2018 Arman Chatikyan (https://github.com/armcha/PlayTabLayout).
 
       Licensed under the Apache License, Version 2.0 (the "License");
       you may not use this file except in compliance with the License.
